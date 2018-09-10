@@ -2,8 +2,10 @@ import React from 'react';
 import { Button, Input, Container, Header } from 'semantic-ui-react';
 import { observer } from 'mobx-react';
 import { extendObservable } from 'mobx';
+import { graphql } from 'react-apollo';
+import gql from 'graphql-tag';
 
-export default observer(class Login extends React.Component {
+class Login extends React.Component {
     constructor(props) {
         super(props);
 
@@ -19,10 +21,18 @@ export default observer(class Login extends React.Component {
         this[name] = value;
     }
 
-    onSubmit = () => {
+    onSubmit = async () => {
         const { email, password } = this;
-        console.log(email);
-        console.log(password);
+        const response = await this.props.mutate({ variables: { email, password } });
+
+        //console.log(response);
+
+        const { ok, token, refreshToken } = response.data.login;
+
+        if (ok) {
+            localStorage.setItem('token', token);
+            localStorage.setItem('refreshToken', refreshToken);
+        }
     }
 
     render() {
@@ -31,10 +41,26 @@ export default observer(class Login extends React.Component {
         return (
             <Container text>
                 <Header as='h2'>Login</Header>
-                <Input name="email" onChange={this.onChange} value={this.email} placeholder="Email" fluid></Input>
-                <Input name="password" onChange={this.onChange} value={this.password} type="password" placeholder="Password" fluid></Input>
+                <Input name="email" onChange={this.onChange} value={email} placeholder="Email" fluid></Input>
+                <Input name="password" onChange={this.onChange} value={password} type="password" placeholder="Password" fluid></Input>
                 <Button onClick={this.onSubmit}>Submit</Button>
             </Container>
         );
     }
-}); 
+}
+
+const loginMutation = gql`
+    mutation($email:String!, $password:String!) {
+        login(email: $email, password: $password) {
+            ok
+            token
+            refreshToken
+            errors {
+                path
+                message
+            }
+        }
+    }
+`;
+
+export default graphql(loginMutation)(observer(Login)); // nested higher order components
