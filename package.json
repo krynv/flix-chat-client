@@ -10,7 +10,7 @@
         "graphql-tag": "^2.10.1",
         "mobx": "^5.10.1",
         "mobx-react": "^5.4.4",
-        "react": "^16.5.0",
+        "react": "^16.8.6",
         "react-apollo": "^2.5.8",
         "react-dom": "^16.8.6",
         "react-router-dom": "^4.3.1",
