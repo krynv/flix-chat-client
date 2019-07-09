@@ -6,7 +6,7 @@
     "license": "ISC",
     "dependencies": {
         "apollo-boost": "^0.1.15",
-        "graphql": "^14.4.1",
+        "graphql": "^14.4.2",
         "graphql-tag": "^2.10.1",
         "mobx": "^5.10.1",
         "mobx-react": "^5.4.4",
