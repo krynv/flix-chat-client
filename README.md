@@ -2,6 +2,8 @@
 
 Client for an experimental chat application inspired by Slack.
 
+_Soon_: http://flix.chat
+
 ## How to use
 
 Prerequisites:
